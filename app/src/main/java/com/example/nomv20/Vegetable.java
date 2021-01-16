@@ -3,10 +3,10 @@ package com.example.nomv20;
 import java.util.Date;
 
 public class Vegetable {
-    private String name;
-    private Date expirationDate;
-    private Date enteredDate;
-    boolean expired;
+        private String name;
+        private Date expirationDate;
+        private Date enteredDate;
+        boolean expired;
 
 
     public Vegetable(String n, Date expDate, Date entDate) {
@@ -35,5 +35,8 @@ public class Vegetable {
         expired = b;
     }
 
+    public String toString() {
+        return expired + "," + name + ","  + expirationDate.toString() + "," + enteredDate.toString() + "\n";
+    }
 
 }

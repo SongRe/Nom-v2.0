@@ -31,8 +31,9 @@ public class MainActivity extends AppCompatActivity {
 
     private static final int IMAGE_PICK_CODE = 1000;
     private static final int PERMISSION_CODE = 1001;
+    public static final String URI_CODE = "com.example.nomv20.ImageURI";
 
-    private Button button;
+    private ImageButton button;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        button = findViewById(R.id.button1);
+        button = findViewById(R.id.imageButton3);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -80,8 +81,7 @@ public class MainActivity extends AppCompatActivity {
             super.onActivityResult(requestCode, resultCode, data);
             if (resultCode == RESULT_OK && requestCode == IMAGE_PICK_CODE) {
                 Intent intent = new Intent(this, ConfirmActivity.class);
-                intent.putExtras(data);
-
+                intent.putExtra(URI_CODE, data.getData().toString());
                 startActivity(intent);
 
             }

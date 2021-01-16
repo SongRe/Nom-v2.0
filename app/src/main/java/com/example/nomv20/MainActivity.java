@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ImageButton;
 import android.view.View;
 import android.Manifest;
@@ -21,7 +22,15 @@ import android.widget.Toast;
 
 import com.google.mlkit.vision.common.InputImage;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.Charset;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 import javax.net.ssl.ManagerFactoryParameters;
 
@@ -39,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        
         ImageButton imageButton4 = findViewById(R.id.imageButton4);
         imageButton4.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -48,6 +57,16 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        Date date = new Date(); // This object contains the current date value
+        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+        String today = formatter.format(date);
+        String [] dateArray = today.split("-");
+        int day =  Integer.parseInt(dateArray[0]);
+        int month =  Integer.parseInt(dateArray[1]);
+        int year =  Integer.parseInt(dateArray[2]);
+        Log.i("TAG", today);
+
+        readProduceData();
 
         button = findViewById(R.id.imageButton3);
         button.setOnClickListener(new View.OnClickListener() {
@@ -70,7 +89,31 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-        private void pickImageFromGallery () {
+    private List<ProduceSample> produceSamples= new ArrayList<>();
+    private void readProduceData() {
+        InputStream is = getResources().openRawResource(R.raw.producedata);
+        BufferedReader reader = new BufferedReader(
+                new InputStreamReader(is, Charset.forName("UTF 8"))
+        );
+
+        String line = "";
+        try {
+            while ((line = reader.readLine())!=null){
+                String[] tokens = line.split(",");
+                ProduceSample sample = new ProduceSample();
+                sample.setProduce(tokens[0]);
+                sample.setDays(Integer.parseInt(tokens[1]));
+                produceSamples.add(sample);
+
+                Log.d("MyActivity","Just Created: "+sample);
+            }
+        } catch (IOException e) {
+            Log.wtf("MyActivity","Error reading data file on line" + line, e);
+            e.printStackTrace();
+        }
+    }
+
+    private void pickImageFromGallery () {
             Intent intent = new Intent(Intent.ACTION_PICK);
             intent.setType("image/*");
             startActivityForResult(intent, IMAGE_PICK_CODE);
@@ -83,6 +126,7 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(this, ConfirmActivity.class);
                 intent.putExtra(URI_CODE, data.getData().toString());
                 startActivity(intent);
+
 
             }
 

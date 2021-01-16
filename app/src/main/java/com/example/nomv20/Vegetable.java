@@ -19,6 +19,11 @@ public class Vegetable {
 
     }
 
+    public Vegetable() {
+
+    }
+
+
     public String getName() {
         return name;
     }

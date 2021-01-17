@@ -4,49 +4,94 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".NewItemActivity"
-    android:background="@color/beige">
+    android:background="@drawable/main_light"
+    tools:context=".NewItemActivity">
+
+    <!-- spinner mode of a date picker -->
+
+    <ImageView
+        android:id="@+id/imageView9"
+        android:layout_width="336dp"
+        android:layout_height="348dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/widget_bg" />
+
+    <ImageView
+        android:id="@+id/imageView6"
+        android:layout_width="274dp"
+        android:layout_height="134dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginBottom="360dp"
+        app:layout_constraintBottom_toBottomOf="@id/imageView9"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/imageView9"
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@drawable/date_back" />
+
+    <ImageView
+        android:id="@+id/imageView8"
+        android:layout_width="274dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="35dp"
+        app:layout_constraintBottom_toTopOf="@+id/confirm_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView6"
+        app:srcCompat="@drawable/entry_bar" />
 
     <EditText
         android:id="@+id/produce_query"
         android:layout_width="wrap_content"
         android:layout_height="40dp"
         android:autofillHints="@string/newItem_hint"
-        android:background="@color/white"
+        android:background="@color/beige"
         android:hint="@string/newItem_hint"
         android:inputType="text"
         android:labelFor="@android:id/hint"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:textSize="19sp"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView8"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="@+id/imageView8"
+        app:layout_constraintVertical_bias="0.506">
 
     </EditText>
 
-    <Button
+    <DatePicker
+        android:id="@+id/simpleDatePicker"
+        android:layout_width="250dp"
+        android:layout_height="89dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView6"
+
+        app:layout_constraintEnd_toEndOf="@+id/imageView6"
+        app:layout_constraintHorizontal_bias="0.454"
+        app:layout_constraintStart_toStartOf="@+id/imageView6"
+        app:layout_constraintTop_toTopOf="@+id/imageView6" />
+
+    <ImageButton
         android:id="@+id/confirm_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="88dp"
-        android:text="@string/confirm_text"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginStart="208dp"
+        android:layout_marginTop="17dp"
+        android:layout_marginEnd="50dp"
+        android:layout_marginBottom="37dp"
+        android:background="#00FFFFFF"
+        android:contentDescription="yes"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView9"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/produce_query"
-        app:layout_constraintVertical_bias="0.053">
-
-    </Button>
-
-    <DatePicker
-        android:id="@+id/simpleDatePicker"
-        android:layout_width="224dp"
-        android:layout_height="95dp"
-        app:layout_constraintBottom_toTopOf="@+id/produce_query"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.888" /> <!-- spinner mode of a date picker -->
+        app:layout_constraintTop_toBottomOf="@+id/produce_query"
+        app:srcCompat="@drawable/confirm_btn" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

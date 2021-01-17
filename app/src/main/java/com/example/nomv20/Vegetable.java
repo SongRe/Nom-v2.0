@@ -16,6 +16,10 @@ public class Vegetable {
     }
 
     public Vegetable(String n, Date expDate, Date entDate, boolean expired) {
+        name = n;
+        expirationDate = expDate;
+        enteredDate = entDate;
+        this.expired = expired;
 
     }
 
@@ -40,8 +44,18 @@ public class Vegetable {
         expired = b;
     }
 
+    public String getExpiryString(boolean b) {
+        if(b) {
+            return "true";
+        } else {
+            return "false";
+        }
+
+
+    }
+
     public String toString() {
-        return expired + "," + name + ","  + expirationDate.toString() + "," + enteredDate.toString() + "\n";
+        return getExpiryString(expired) + "," + name + ","  + expirationDate.toString() + "," + enteredDate.toString() + "\n";
     }
 
 }

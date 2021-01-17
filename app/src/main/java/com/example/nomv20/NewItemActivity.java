@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import java.io.BufferedWriter;
@@ -25,7 +26,7 @@ import java.util.Date;
 public class NewItemActivity extends AppCompatActivity {
 
     EditText produce_query;
-    Button confirm_button;
+    ImageButton confirm_button;
     File file;
     DatePicker datePicker;
     private Calendar calendar;
@@ -48,10 +49,6 @@ public class NewItemActivity extends AppCompatActivity {
         DisplayMetrics dm = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(dm);
 
-        int width = (int) (dm.widthPixels * 0.9);
-        int height = (int) (dm.heightPixels * 0.4);
-        getWindow().setLayout(width, height);
-
 
 
         Intent getIntent = getIntent();
@@ -73,7 +70,9 @@ public class NewItemActivity extends AppCompatActivity {
                     Toast.makeText(NewItemActivity.this, "Success!", Toast.LENGTH_LONG).show();
 //                    Intent mainIntent = new Intent(NewItemActivity.this, MainActivity.class);
 //                    startActivity(mainIntent);
-                    NewItemActivity.this.finish();
+                    startActivity(getIntent());
+                    overridePendingTransition(android.R.anim.fade_in,android.R.anim.fade_out);
+                    finish();
                 } else {
                     Toast.makeText(NewItemActivity.this, "Produce ID not found. Please make sure you have spelt it correctly", Toast.LENGTH_LONG).show();
                 }

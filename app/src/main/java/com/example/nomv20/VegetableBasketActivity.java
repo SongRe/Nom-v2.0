@@ -13,12 +13,10 @@ public class VegetableBasketActivity extends AppCompatActivity {
     public File file;
     public static final String fileName = "currentVegetables.txt";
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vegetable_basket);
     }
 
-
-
-}

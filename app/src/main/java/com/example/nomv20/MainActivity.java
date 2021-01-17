@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Window;
 import android.widget.ImageButton;
 import android.view.View;
 import android.Manifest;
@@ -101,7 +102,8 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, NewItemActivity.class);
         intent.putParcelableArrayListExtra(PRODUCE_SAMPLE_CODE, produceSamples);
         startActivity(intent);
-        this.finish();
+        overridePendingTransition(android.R.anim.fade_in,android.R.anim.fade_out);
+       // this.finish();
     }
 
     public void openImageActivity() {

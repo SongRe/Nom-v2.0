@@ -67,14 +67,14 @@ public class NewItemActivity extends AppCompatActivity {
                     Date expDate = calendar.getTime(); //getting the expiry date
                     Vegetable newVegetable = new Vegetable(s, expDate,d, false );
                     writeFileOnInternalStorage(NewItemActivity.this, VegetableBasketActivity.fileName, newVegetable.toString());
-                    Toast.makeText(NewItemActivity.this, "Success!", Toast.LENGTH_LONG);
+                    Toast.makeText(NewItemActivity.this, "Success!", Toast.LENGTH_LONG).show();
 //                    Intent mainIntent = new Intent(NewItemActivity.this, MainActivity.class);
 //                    startActivity(mainIntent);
                     startActivity(getIntent());
                     overridePendingTransition(android.R.anim.fade_in,android.R.anim.fade_out);
                     finish();
                 } else {
-                    Toast.makeText(NewItemActivity.this, "Produce ID not found. Please make sure you have spelt it correctly", Toast.LENGTH_LONG);
+                    Toast.makeText(NewItemActivity.this, "Produce ID not found. Please make sure you have spelt it correctly", Toast.LENGTH_LONG).show();
                 }
 
 

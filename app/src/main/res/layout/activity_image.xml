@@ -21,7 +21,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:adjustViewBounds="true"
-                android:src="@drawable/ic_placeholder" />
+                android:src="@drawable/ic_placeholder"
+                android:contentDescription="@string/app_name" />
 
             <TextView
                 android:id="@+id/textView"

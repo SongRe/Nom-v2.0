@@ -82,7 +82,15 @@ public class NewItemActivity extends AppCompatActivity {
 
             }
         });
+
+
     }
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+    }
+
 
 
     private TextWatcher checkInput = new TextWatcher() {

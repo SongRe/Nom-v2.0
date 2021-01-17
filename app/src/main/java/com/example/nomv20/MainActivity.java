@@ -47,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
     File file;
 
     private ImageButton button;
+    private Button imgButton;
     private ArrayList<ProduceSample> produceSamples= new ArrayList<>();
     Calendar calendar;
 
@@ -60,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
         Vegetable v = new Vegetable("apple", calendar.getTime(), calendar.getTime(), false );
         Log.i("TAG", v.toString());
         
-        ImageButton imageButton4 = findViewById(R.id.imageButton4);
+        ImageButton imageButton4 = findViewById(R.id.vegetable_basket_button);
         imageButton4.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 System.out.println("Button Clicked");
@@ -68,14 +69,14 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        Date date = new Date(); // This object contains the current date value
-        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-        String today = formatter.format(date);
-        String [] dateArray = today.split("-");
-        int day =  Integer.parseInt(dateArray[0]);
-        int month =  Integer.parseInt(dateArray[1]);
-        int year =  Integer.parseInt(dateArray[2]);
-        Log.i("TAG", today);
+//        Date date = new Date(); // This object contains the current date value
+//        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+//        String today = formatter.format(date);
+//        String [] dateArray = today.split("-");
+//        int day =  Integer.parseInt(dateArray[0]);
+//        int month =  Integer.parseInt(dateArray[1]);
+//        int year =  Integer.parseInt(dateArray[2]);
+//        Log.i("TAG", today);
 
         readProduceData();
 
@@ -87,12 +88,25 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+
+        imgButton = findViewById(R.id.image_button);
+        imgButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openImageActivity();
+            }
+        });
     }
     public void openNewItemActivity() {
         Intent intent = new Intent(this, NewItemActivity.class);
         intent.putParcelableArrayListExtra(PRODUCE_SAMPLE_CODE, produceSamples);
         startActivity(intent);
         this.finish();
+    }
+
+    public void openImageActivity() {
+        Intent intent = new Intent(MainActivity.this, ImageActivity.class);
+        startActivity(intent);
     }
 
 

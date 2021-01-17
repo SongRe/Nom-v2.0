@@ -23,12 +23,14 @@ import android.widget.Toast;
 import com.google.mlkit.vision.common.InputImage;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -41,13 +43,22 @@ public class MainActivity extends AppCompatActivity {
     private static final int IMAGE_PICK_CODE = 1000;
     private static final int PERMISSION_CODE = 1001;
     public static final String URI_CODE = "com.example.nomv20.ImageURI";
+    public static final String PRODUCE_SAMPLE_CODE = "com.example.nomv20.ProduceSample";
+    File file;
 
     private ImageButton button;
+    private ArrayList<ProduceSample> produceSamples= new ArrayList<>();
+    Calendar calendar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        calendar = Calendar.getInstance();
+        file = new File(this.getFilesDir(), VegetableBasketActivity.fileName);
+
+        Vegetable v = new Vegetable("apple", calendar.getTime(), calendar.getTime(), false );
+        Log.i("TAG", v.toString());
         
         ImageButton imageButton4 = findViewById(R.id.imageButton4);
         imageButton4.setOnClickListener(new View.OnClickListener() {
@@ -72,28 +83,23 @@ public class MainActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
-                        //permission not granted, request permissions
-                        String[] permissions = {Manifest.permission.READ_EXTERNAL_STORAGE};
-                        requestPermissions(permissions, PERMISSION_CODE);
-                    } else {
-                        //permission granted
-                        pickImageFromGallery();
-                    }
-                } else {
-                    //system os less than marshmallow
-                    pickImageFromGallery();
-                }
+                openNewItemActivity();
+
             }
         });
     }
+    public void openNewItemActivity() {
+        Intent intent = new Intent(this, NewItemActivity.class);
+        intent.putParcelableArrayListExtra(PRODUCE_SAMPLE_CODE, produceSamples);
+        startActivity(intent);
+        this.finish();
+    }
 
-    private List<ProduceSample> produceSamples= new ArrayList<>();
+
     private void readProduceData() {
         InputStream is = getResources().openRawResource(R.raw.producedata);
         BufferedReader reader = new BufferedReader(
-                new InputStreamReader(is, Charset.forName("UTF 8"))
+                new InputStreamReader(is, Charset.forName("UTF8"))
         );
 
         String line = "";

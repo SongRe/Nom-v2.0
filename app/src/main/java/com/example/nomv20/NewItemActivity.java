@@ -44,11 +44,10 @@ public class NewItemActivity extends AppCompatActivity {
         datePicker = (DatePicker) findViewById(R.id.simpleDatePicker);
         datePicker.setEnabled(true);
 
-        file =new File(this.getFilesDir(), VegetableBasketActivity.fileName);
+        file = new File(this.getFilesDir(), VegetableBasketActivity.fileName);
 
         DisplayMetrics dm = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(dm);
-
 
 
         Intent getIntent = getIntent();
@@ -60,28 +59,36 @@ public class NewItemActivity extends AppCompatActivity {
 
                 String s = produce_query.getText().toString(); //the name of vegetable
                 Date d = calendar.getTime(); //current date
-                if(isInDatabase(s)) {
+                if (isInDatabase(s)) {
                     int i = databaseStringIndex(s);
                     int expDays = produceSamples.get(i).getDays();  //finding the expiry date
                     calendar.add(Calendar.DATE, expDays);
                     Date expDate = calendar.getTime(); //getting the expiry date
-                    Vegetable newVegetable = new Vegetable(s, expDate,d, false );
-                    writeFileOnInternalStorage(NewItemActivity.this, VegetableBasketActivity.fileName, newVegetable.toString());
+                    Vegetable newVegetable = new Vegetable(s, expDate, d, false);
+                    writeToFile(newVegetable.toString(), NewItemActivity.this);
+                   // writeFileOnInternalStorage(NewItemActivity.this, VegetableBasketActivity.fileName, newVegetable.toString());
                     Toast.makeText(NewItemActivity.this, "Success!", Toast.LENGTH_LONG).show();
 //                    Intent mainIntent = new Intent(NewItemActivity.this, MainActivity.class);
 //                    startActivity(mainIntent);
                     startActivity(getIntent());
-                    overridePendingTransition(android.R.anim.fade_in,android.R.anim.fade_out);
+                    overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                     finish();
                 } else {
                     Toast.makeText(NewItemActivity.this, "Produce ID not found. Please make sure you have spelt it correctly", Toast.LENGTH_LONG).show();
                 }
 
 
-
-
             }
         });
+
+
+    }
+
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }
 
 
@@ -103,9 +110,18 @@ public class NewItemActivity extends AppCompatActivity {
         }
     };
 
-    public void writeFileOnInternalStorage(Context mcoContext, String sFileName, String sBody){
+    public void writeToFile(String data, Context context) {
+        //String existing = readFromFile(context);
+        try (BufferedWriter fos = new BufferedWriter(new FileWriter(context.getFileStreamPath(VegetableBasketActivity.fileName), true))) {
+            fos.write(data + "\n");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void writeFileOnInternalStorage(Context mcoContext, String sFileName, String sBody) {
         File dir = new File(mcoContext.getFilesDir(), "Nom V2.0");
-        if(!dir.exists()){
+        if (!dir.exists()) {
             dir.mkdir();
         }
 
@@ -115,14 +131,14 @@ public class NewItemActivity extends AppCompatActivity {
             writer.append(sBody);
             writer.flush();
             writer.close();
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     public boolean isInDatabase(String s) {
-        for(int i = 0; i < produceSamples.size();i++) {
-            if(s.equalsIgnoreCase(produceSamples.get(i).getProduce())) {
+        for (int i = 0; i < produceSamples.size(); i++) {
+            if (s.equalsIgnoreCase(produceSamples.get(i).getProduce())) {
                 return true;
             }
         }
@@ -130,8 +146,8 @@ public class NewItemActivity extends AppCompatActivity {
     }
 
     public int databaseStringIndex(String s) {
-        for(int i = 0; i < produceSamples.size();i++) {
-            if(s.equalsIgnoreCase(produceSamples.get(i).getProduce())) {
+        for (int i = 0; i < produceSamples.size(); i++) {
+            if (s.equalsIgnoreCase(produceSamples.get(i).getProduce())) {
                 return i;
             }
         }

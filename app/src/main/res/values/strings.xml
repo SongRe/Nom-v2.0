@@ -3,4 +3,8 @@
     <string name="newItem_hint">Enter your produce name:</string>
     <string name="confirm_text">Confirm</string>
     <string name="date">Date Purchased</string>
+
+    <string name="action_gallery">Gallery</string>
+    <string name="permission_request">This app need to access files on your device.</string>
+    <string name="no_text">No text found</string>
 </resources>

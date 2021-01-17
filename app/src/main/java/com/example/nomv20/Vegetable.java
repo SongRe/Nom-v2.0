@@ -43,6 +43,9 @@ public class Vegetable {
     public void setExpired(boolean b) {
         expired = b;
     }
+    public boolean getExpired() {
+        return expired;
+    }
 
     public String getExpiryString(boolean b) {
         if(b) {
@@ -55,7 +58,7 @@ public class Vegetable {
     }
 
     public String toString() {
-        return getExpiryString(expired) + "," + name + ","  + expirationDate.toString() + "," + enteredDate.toString() + "\n";
+        return getExpiryString(expired) + "," + name + ","  + expirationDate.toString() + "," + enteredDate.toString();
     }
 
 }

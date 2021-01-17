@@ -90,13 +90,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        imgButton = findViewById(R.id.image_button);
-        imgButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openImageActivity();
-            }
-        });
+        //imgButton = findViewById(R.id.image_button);
+//        imgButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                openImageActivity();
+//            }
+//        });
     }
     public void openNewItemActivity() {
         Intent intent = new Intent(this, NewItemActivity.class);

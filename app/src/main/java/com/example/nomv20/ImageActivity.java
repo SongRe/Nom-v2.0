@@ -13,75 +13,99 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
+import android.graphics.Bitmap;
+import android.os.Bundle;
+import android.widget.ImageView;
+import android.content.Intent;
+import android.widget.TextView;
+import android.net.Uri;
 
-public class ImageActivity extends AppCompatActivity {
+import com.google.android.gms.tasks.OnFailureListener;
 
-    ImageView mImageView;
-    Button mChooseBtn;
+import java.util.Calendar;
 
-    private static final int IMAGE_PICK_CODE = 1000;
-    private static final int PERMISSION_CODE = 1001;
+public class ImageActivity extends BaseActivity implements View.OnClickListener {
+
+    private Bitmap myBitmap;
+    private ImageView myImageView;
+    private TextView myTextView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image);
-
-        //Views
-        mImageView = findViewById(R.id.imageView);
-        mChooseBtn = findViewById(R.id.select_image_button);
-
-        mChooseBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
-                        String[] permissions = {Manifest.permission.READ_EXTERNAL_STORAGE};
-                        //show popup for runtime permission
-                        requestPermissions(permissions, PERMISSION_CODE);
-
-                    } else {
-                        //permission granted
-                        pickImageFromGallery();
-                    }
-                } else {
-                    pickImageFromGallery();
-                    //system os is less
-                }
-            }
-        });
-    }
-
-    private void pickImageFromGallery() {
-        //intent
-        Intent intent = new Intent(Intent.ACTION_PICK);
-        intent.setType("image/*");
-        startActivityForResult(intent, IMAGE_PICK_CODE);
+        myTextView = findViewById(R.id.textView);
+        myImageView = findViewById(R.id.imageView);
+        findViewById(R.id.checkText).setOnClickListener(this);
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        switch (requestCode) {
-            case PERMISSION_CODE:
-                if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    //permission granted
-                    pickImageFromGallery();
-                } else {
-                    //permission denied
-                    Toast.makeText(this, "Permission denied lol", Toast.LENGTH_SHORT).show();
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.checkText:
+                if (myBitmap != null) {
+                    //runTextRecog();
                 }
+                break;
+
         }
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode == RESULT_OK && requestCode == IMAGE_PICK_CODE) {
-            //set image to image view
-            mImageView.setImageURI(data.getData());
+        if (resultCode == RESULT_OK) {
+            switch (requestCode) {
+                case WRITE_STORAGE:
+                    checkPermission(requestCode);
+                    break;
+                case SELECT_PHOTO:
+                    Uri dataUri = data.getData();
+                    String path = MyHelper.getPath(this, dataUri);
+                    if (path == null) {
+                        myBitmap = MyHelper.resizePhoto(photo, this, dataUri, myImageView);
+                    } else {
+                        myBitmap = MyHelper.resizePhoto(photo, path, myImageView);
+                    }
+                    if (myBitmap != null) {
+                        myTextView.setText(null);
+                        myImageView.setImageBitmap(myBitmap);
+                    }
+                    break;
+
+            }
         }
     }
 
+//    private <FirebaseVisionImage> void runTextRecog() {
+//        FirebaseVisionImage image = FirebaseVisionImage.fromBitmap(myBitmap);
+//        FirebaseVisionTextDetector detector = FirebaseVision.getInstance().getVisionTextDetector();
+//        detector.detectInImage(image).addOnSuccessListener(new OnSuccessListener<FirebaseVisionText>() {
+//            @Override
+//            public void onSuccess(FirebaseVisionText texts) {
+//                processExtractedText(texts);
+//            }
+//        }).addOnFailureListener(new OnFailureListener() {
+//            @Override
+//            public void onFailure
+//                    (@NonNull Exception exception) {
+//                Toast.makeText(ImageActivity.this,
+//                        "Exception", Toast.LENGTH_LONG).show();
+//            }
+//        });
+//    }
+//
+//    private void processExtractedText(FirebaseVisionText firebaseVisionText) {
+//        myTextView.setText(null);
+//        if (firebaseVisionText.getBlocks().size() == 0) {
+//            myTextView.setText(R.string.no_text);
+//            return;
+//        }
+//        for (FirebaseVisionText.Block block : firebaseVisionText.getBlocks()) {
+//            myTextView.append(block.getText());
+//
+//        }
+//    }
 
 }
